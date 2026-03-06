@@ -475,24 +475,29 @@ function openGerente(gerente, allRowsFiltered){
   const rows = allRowsFiltered.filter(r => (r.gerente||"Outros") === gerente);
   
   // Unique clients with max value
-  const cliMap = {};
+  // Volume: soma apenas o maior valor por cliente (para não duplicar)
+  const cliMaxMap = {};
   rows.forEach(r => {
     const k = r.cliente||"—";
-    if(!cliMap[k] || r.operacao > cliMap[k].operacao) cliMap[k] = r;
+    if(!cliMaxMap[k] || (r.operacao||0) > cliMaxMap[k]) cliMaxMap[k] = r.operacao||0;
   });
-  const clientes = Object.values(cliMap);
-  const volTotal = clientes.reduce((s,r) => s + (r.operacao||0), 0);
+  const clientesUnicos = Object.keys(cliMaxMap);
+  const volTotal = Object.values(cliMaxMap).reduce((s,v) => s+v, 0);
 
   document.getElementById("modalTitle").textContent = gerente;
-  document.getElementById("modalSub").textContent = "Carteira de clientes — maior operação por cliente";
-  document.getElementById("modalClientes").textContent = clientes.length;
+  document.getElementById("modalSub").textContent = "Todas as operações por cliente e fundo";
+  document.getElementById("modalClientes").textContent = clientesUnicos.length;
   document.getElementById("modalOps").textContent = rows.length;
   document.getElementById("modalVol").textContent = fmtM(volTotal);
 
   const tbody = document.getElementById("modalBody");
   tbody.innerHTML = "";
-  // Sort by value desc
-  clientes.sort((a,b) => (b.operacao||0) - (a.operacao||0)).forEach(r => {
+  // Mostra TODAS as linhas, ordenadas por cliente e depois valor desc
+  [...rows].sort((a,b) => {
+    if((a.cliente||"") < (b.cliente||"")) return -1;
+    if((a.cliente||"") > (b.cliente||"")) return 1;
+    return (b.operacao||0) - (a.operacao||0);
+  }).forEach(r => {
     const st = normSt(r.status);
     const sty = ST_P[st] || "background:#eee;color:#666";
     tbody.innerHTML += `<tr>
