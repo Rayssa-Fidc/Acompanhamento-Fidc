@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FIDC — Painel Executivo</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --orange:#E8621A; --orange-lt:#F28C4E; --orange-dk:#B84C10;
@@ -13,7 +13,7 @@
   --blue:#2A6496;   --purple:#7B3F8C; --muted:#7A7268;
   --bg:#F5F3EF;     --surface:#FFFFFF; --surface2:#FAF8F5;
   --border:#E2DDD6; --text:#1A1612;
-  --serif:"Cormorant Garamond",Georgia,serif;
+  --serif:"Outfit",sans-serif;
   --sans:"Outfit",sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
@@ -161,6 +161,34 @@ footer p{font-size:11px;color:var(--muted);}
 .kpi:nth-child(3){animation-delay:.15s}.kpi:nth-child(4){animation-delay:.20s}
 .kpi:nth-child(5){animation-delay:.25s}
 @media print{body{background:#fff;}.page{padding:16px;}header{margin:0 -16px 24px;padding:0 16px;}}
+
+/* MODAL */
+#modal{display:none;position:fixed;inset:0;z-index:1000;align-items:center;justify-content:center;padding:20px;}
+#modal.open{display:flex;}
+.modal-bg{position:absolute;inset:0;background:rgba(26,22,18,.6);backdrop-filter:blur(4px);}
+.modal-box{position:relative;background:#fff;border-radius:16px;width:100%;max-width:720px;
+  max-height:85vh;display:flex;flex-direction:column;box-shadow:0 24px 60px rgba(0,0,0,.2);
+  animation:modalIn .25s ease;}
+@keyframes modalIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.modal-hd{padding:24px 28px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;flex-shrink:0;}
+.modal-title{font-family:var(--sans);font-size:22px;font-weight:700;}
+.modal-sub{font-size:12px;color:var(--muted);margin-top:3px;}
+.modal-close{background:none;border:1px solid var(--border);border-radius:6px;width:32px;height:32px;
+  font-size:16px;cursor:pointer;color:var(--muted);display:flex;align-items:center;justify-content:center;
+  transition:all .2s;flex-shrink:0;}
+.modal-close:hover{background:var(--bg);color:var(--text);}
+.modal-body{padding:20px 28px 28px;overflow-y:auto;}
+.modal-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
+.mstat{background:var(--bg);border-radius:10px;padding:14px 16px;}
+.mstat-lbl{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.mstat-val{font-size:22px;font-weight:700;color:var(--text);}
+.mstat-val.orange{color:var(--orange);}
+.modal-table{width:100%;border-collapse:collapse;font-size:12px;}
+.modal-table th{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
+  color:var(--muted);padding:0 10px 10px;text-align:left;border-bottom:1px solid var(--border);}
+.modal-table td{padding:9px 10px;border-bottom:1px solid var(--surface2);vertical-align:middle;}
+.modal-table tr:last-child td{border-bottom:none;}
+.modal-table tr:hover td{background:var(--bg);}
 </style>
 </head>
 <body>
@@ -355,10 +383,17 @@ function renderAll(){
   // Agregações
   let vol=0;
   const bySt={},byFV={},byFQ={},byGer={},byMod={};
+  // Para volume por gerente: pega o maior valor por cliente+gerente (evita somar múltiplas linhas do mesmo cliente)
+  const gerCliMax={};
   rows.forEach(r=>{
     const v=r.operacao||0,st=normSt(r.status),fu=r.fundo||"Outros",ge=r.gerente||"Outros",mo=r.modalidade||"Outros";
-    vol+=v;bySt[st]=(bySt[st]||0)+1;byFV[fu]=(byFV[fu]||0)+v;byFQ[fu]=(byFQ[fu]||0)+1;byGer[ge]=(byGer[ge]||0)+v;byMod[mo]=(byMod[mo]||0)+1;
+    vol+=v;bySt[st]=(bySt[st]||0)+1;byFV[fu]=(byFV[fu]||0)+v;byFQ[fu]=(byFQ[fu]||0)+1;byMod[mo]=(byMod[mo]||0)+1;
+    // Gerente: considera apenas o maior valor por cliente
+    const key=ge+"||"+(r.cliente||"");
+    if(!gerCliMax[key]||v>gerCliMax[key].v) gerCliMax[key]={ge,v};
   });
+  // Agrupa os maiores valores por gerente
+  Object.values(gerCliMax).forEach(({ge,v})=>{ byGer[ge]=(byGer[ge]||0)+v; });
 
   const aprov=bySt["aprovado"]||0,reprov=(bySt["reprovado"]||0)+(bySt["declinado cliente"]||0),anal=bySt["em análise"]||0,other=n-aprov-reprov-anal;
 
@@ -390,7 +425,14 @@ function renderAll(){
   const gC=[C.orange,C.orangeL,C.gold,C.green,C.blue,C.purple];
   const gE=sortD(byGer).slice(0,6),mxG=gE[0]?.[1]||1;
   const tg=document.getElementById("tGer");tg.innerHTML="";
-  gE.forEach(([g,v],i)=>{const cor=gC[i]||C.muted,w=((v/mxG)*100).toFixed(0);tg.innerHTML+=`<div class="trow"><span class="trank" style="color:${cor}">${i+1}</span><div class="tbwrap"><span class="tname">${g}</span><div class="ttrack"><div class="tfill" style="width:${w}%;background:${cor}"></div></div></div><span class="tval" style="color:${cor}">${fmtM(v)}</span></div>`;});
+  const _rows=rows; // capture for modal closure
+  gE.forEach(([g,v],i)=>{const cor=gC[i]||C.muted,w=((v/mxG)*100).toFixed(0);
+    tg.innerHTML+=`<div class="trow" onclick="openGerente('${g.replace(/'/g,"\'")}',window._lastRows)" style="cursor:pointer;border-radius:8px;padding:4px;margin:-4px;transition:background .15s" onmouseover="this.style.background='#F5F3EF'" onmouseout="this.style.background=''">`+
+    `<span class="trank" style="color:${cor}">${i+1}</span><div class="tbwrap"><span class="tname">${g}</span>`+
+    `<div class="ttrack"><div class="tfill" style="width:${w}%;background:${cor}"></div></div></div>`+
+    `<span class="tval" style="color:${cor}">${fmtM(v)} <span style="font-size:9px;color:var(--muted);font-weight:400">↗</span></span></div>`;
+  });
+  window._lastRows = _rows;
 
   // Modalidade
   dest("cMod");
@@ -427,10 +469,80 @@ function renderAll(){
   items.forEach(it=>rg.innerHTML+=`<div class="rrow"><span class="rlbl">${it.l}</span><span class="rval" style="color:${it.cor}">${it.v}</span></div>`);
 }
 
+
+// ── MODAL ─────────────────────────────────────────────
+function openGerente(gerente, allRowsFiltered){
+  const rows = allRowsFiltered.filter(r => (r.gerente||"Outros") === gerente);
+  
+  // Unique clients with max value
+  const cliMap = {};
+  rows.forEach(r => {
+    const k = r.cliente||"—";
+    if(!cliMap[k] || r.operacao > cliMap[k].operacao) cliMap[k] = r;
+  });
+  const clientes = Object.values(cliMap);
+  const volTotal = clientes.reduce((s,r) => s + (r.operacao||0), 0);
+
+  document.getElementById("modalTitle").textContent = gerente;
+  document.getElementById("modalSub").textContent = "Carteira de clientes — maior operação por cliente";
+  document.getElementById("modalClientes").textContent = clientes.length;
+  document.getElementById("modalOps").textContent = rows.length;
+  document.getElementById("modalVol").textContent = fmtM(volTotal);
+
+  const tbody = document.getElementById("modalBody");
+  tbody.innerHTML = "";
+  // Sort by value desc
+  clientes.sort((a,b) => (b.operacao||0) - (a.operacao||0)).forEach(r => {
+    const st = normSt(r.status);
+    const sty = ST_P[st] || "background:#eee;color:#666";
+    tbody.innerHTML += `<tr>
+      <td style="font-weight:600">${r.cliente||"—"}</td>
+      <td style="color:var(--muted)">${r.fundo||"—"}</td>
+      <td style="color:var(--muted);font-size:11px">${r.modalidade||"—"}</td>
+      <td style="font-weight:700;color:var(--orange)">${r.operacao>0?fmtM(r.operacao):"—"}</td>
+      <td><span class="pill" style="${sty}">${r.status||"—"}</span></td>
+    </tr>`;
+  });
+
+  document.getElementById("modal").classList.add("open");
+  document.body.style.overflow = "hidden";
+}
+
+function closeModal(){
+  document.getElementById("modal").classList.remove("open");
+  document.body.style.overflow = "";
+}
+
+document.addEventListener("keydown", e => { if(e.key === "Escape") closeModal(); });
+
 // ── INIT ──────────────────────────────────────────────
 loadData();
 // Auto-refresh a cada 5 minutos
 setInterval(loadData, 5 * 60 * 1000);
 </script>
+
+<div id="modal">
+  <div class="modal-bg" onclick="closeModal()"></div>
+  <div class="modal-box">
+    <div class="modal-hd">
+      <div>
+        <div class="modal-title" id="modalTitle">—</div>
+        <div class="modal-sub" id="modalSub">—</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-stats">
+        <div class="mstat"><div class="mstat-lbl">Clientes</div><div class="mstat-val" id="modalClientes">—</div></div>
+        <div class="mstat"><div class="mstat-lbl">Operações</div><div class="mstat-val" id="modalOps">—</div></div>
+        <div class="mstat"><div class="mstat-lbl">Volume Total</div><div class="mstat-val orange" id="modalVol">—</div></div>
+      </div>
+      <table class="modal-table">
+        <thead><tr><th>Cliente</th><th>Fundo</th><th>Modalidade</th><th>Valor</th><th>Status</th></tr></thead>
+        <tbody id="modalBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
 </body>
 </html>
