@@ -7,20 +7,16 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --orange:#E8621A; --orange-lt:#F28C4E; --orange-dk:#B84C10;
-  --green:#2E7D52;  --gold:#C9962A;   --red:#C0392B;
-  --blue:#2A6496;   --purple:#7B3F8C; --muted:#7A7268;
-  --bg:#F5F3EF;     --surface:#FFFFFF; --surface2:#FAF8F5;
-  --border:#E2DDD6; --text:#1A1612;
-  --serif:"Outfit",sans-serif;
-  --sans:"Outfit",sans-serif;
+:root{
+  --orange:#E8621A;--orange-lt:#F28C4E;--green:#2E7D52;--gold:#C9962A;
+  --red:#C0392B;--blue:#2A6496;--purple:#7B3F8C;--muted:#7A7268;
+  --bg:#F5F3EF;--surface:#fff;--surface2:#FAF8F5;--border:#E2DDD6;--text:#1A1612;
+  --f:"Outfit",sans-serif;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;min-height:100vh;}
-body::before{content:"";position:fixed;inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='1' fill='%23C9962A' opacity='0.07'/%3E%3C/svg%3E");
-  pointer-events:none;z-index:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--f);font-size:14px;}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='1' fill='%23C9962A' opacity='0.07'/%3E%3C/svg%3E");}
 
 /* LOADING */
 #loading{position:fixed;inset:0;background:var(--bg);z-index:999;
@@ -28,43 +24,44 @@ body::before{content:"";position:fixed;inset:0;
 .spinner{width:44px;height:44px;border:3px solid var(--border);border-top-color:var(--orange);
   border-radius:50%;animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg);}}
-.loading-title{font-family:var(--serif);font-size:22px;color:var(--muted);}
-.loading-sub{font-size:11px;color:#ccc;letter-spacing:2px;}
+.ld-title{font-size:20px;font-weight:600;color:var(--muted);}
+.ld-sub{font-size:11px;color:#ccc;letter-spacing:2px;}
 
 /* ERROR */
 #errorBar{display:none;background:#fff3f0;border:1px solid #f5c0b0;border-radius:8px;
-  padding:14px 20px;margin:20px 40px;font-size:13px;color:var(--red);
-  align-items:center;gap:12px;}
+  padding:12px 20px;margin:16px;font-size:13px;color:var(--red);align-items:center;gap:12px;}
 
-.page{max-width:1500px;margin:0 auto;padding:0 40px 60px;position:relative;z-index:1;}
+/* PAGE */
+.page{max-width:1500px;margin:0 auto;padding:0 clamp(16px,4vw,40px) 60px;position:relative;z-index:1;}
 
 /* HEADER */
-header{background:#1A1612;margin:0 -40px 36px;padding:0 40px;position:relative;overflow:hidden;}
+header{background:#1A1612;margin:0 calc(-1*clamp(16px,4vw,40px)) clamp(24px,3vw,36px);
+  padding:0 clamp(16px,4vw,40px);position:relative;overflow:hidden;}
 header::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;
   background:linear-gradient(90deg,var(--orange),var(--gold),var(--orange));}
 header::after{content:"";position:absolute;right:-60px;top:-60px;width:280px;height:280px;
-  background:radial-gradient(circle,rgba(232,98,26,0.08) 0%,transparent 70%);pointer-events:none;}
-.hdr{display:flex;justify-content:space-between;align-items:center;padding:28px 0 24px;}
+  background:radial-gradient(circle,rgba(232,98,26,.08) 0%,transparent 70%);pointer-events:none;}
+.hdr{display:flex;justify-content:space-between;align-items:center;
+  padding:clamp(18px,2.5vw,28px) 0 clamp(16px,2vw,24px);gap:20px;flex-wrap:wrap;}
 .eyebrow{font-size:9px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--orange);margin-bottom:4px;}
-.brand{font-family:var(--serif);font-size:42px;font-weight:700;color:#fff;line-height:1;letter-spacing:-1px;}
+.brand{font-size:clamp(24px,5vw,42px);font-weight:700;color:#fff;line-height:1;letter-spacing:-1px;}
 .brand-sub{font-size:12px;color:#888;font-weight:300;margin-top:6px;}
-.hdr-right{display:flex;flex-direction:column;align-items:flex-end;gap:12px;}
+.hdr-right{display:flex;flex-direction:column;align-items:flex-end;gap:10px;}
 
-/* FUNDO SELECTOR */
-.fw{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.06);
-  border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:10px 18px;}
+/* SELECTOR */
+.fw{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);border-radius:8px;padding:8px 16px;}
 .flbl{font-size:9px;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:#666;}
 .fsep{width:1px;height:18px;background:rgba(255,255,255,.15);}
-#fundoSelect{background:none;border:none;font-family:var(--sans);font-size:15px;
-  font-weight:600;color:var(--orange);cursor:pointer;outline:none;min-width:160px;}
+#fundoSelect{background:none;border:none;font-family:var(--f);font-size:14px;
+  font-weight:600;color:var(--orange);cursor:pointer;outline:none;min-width:140px;max-width:200px;}
 #fundoSelect option{background:#1A1612;color:#fff;}
-.hdr-meta{display:flex;align-items:center;gap:12px;}
+.hdr-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 .mpill{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);
   border-radius:20px;padding:4px 12px;font-size:10px;color:#888;}
 .mpill span{color:var(--orange);font-weight:600;}
 #refreshBtn{background:none;border:1px solid rgba(232,98,26,.4);border-radius:6px;
-  padding:6px 14px;font-family:var(--sans);font-size:11px;color:var(--orange);
-  cursor:pointer;transition:all .2s;}
+  padding:6px 14px;font-family:var(--f);font-size:11px;color:var(--orange);cursor:pointer;transition:all .2s;}
 #refreshBtn:hover{background:rgba(232,98,26,.1);}
 #refreshBtn.loading{opacity:.5;pointer-events:none;}
 
@@ -74,71 +71,80 @@ header::after{content:"";position:absolute;right:-60px;top:-60px;width:280px;hei
 .sl::after{content:"";flex:1;height:1px;background:var(--border);}
 
 /* KPI */
-.kpi-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:32px;}
+.kpi-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:28px;}
+@media(max-width:900px){.kpi-strip{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:500px){.kpi-strip{grid-template-columns:repeat(2,1fr);}}
 .kpi{background:var(--surface);border:1px solid var(--border);border-radius:10px;
-  padding:20px 22px;position:relative;overflow:hidden;
-  box-shadow:0 2px 8px rgba(0,0,0,.04);transition:transform .2s,box-shadow .2s;
-  animation:fadeUp .5s ease both;}
-.kpi{cursor:pointer;}
+  padding:18px 20px;position:relative;overflow:hidden;cursor:pointer;
+  box-shadow:0 2px 8px rgba(0,0,0,.04);transition:transform .2s,box-shadow .2s;animation:fadeUp .5s ease both;}
 .kpi:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.09);}
-.kpi.active{box-shadow:0 0 0 2px var(--orange),0 8px 24px rgba(0,0,0,.12);transform:translateY(-3px);}
+.kpi::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;}
+.kpi.co::before{background:var(--orange)}.kpi.cg::before{background:var(--green)}
+.kpi.cd::before{background:var(--gold)}.kpi.cr::before{background:var(--red)}
+.kpi.cb::before{background:var(--blue)}
+.kpi.active{transform:translateY(-3px);}
+.kpi.co.active{box-shadow:0 0 0 2px var(--orange),0 8px 24px rgba(0,0,0,.12);}
 .kpi.cg.active{box-shadow:0 0 0 2px var(--green),0 8px 24px rgba(0,0,0,.12);}
 .kpi.cd.active{box-shadow:0 0 0 2px var(--gold),0 8px 24px rgba(0,0,0,.12);}
 .kpi.cr.active{box-shadow:0 0 0 2px var(--red),0 8px 24px rgba(0,0,0,.12);}
 .kpi.cb.active{box-shadow:0 0 0 2px var(--blue),0 8px 24px rgba(0,0,0,.12);}
-.kpi-hint{font-size:9px;color:var(--muted);margin-top:6px;opacity:0;transition:opacity .2s;letter-spacing:.5px;}
-.kpi:hover .kpi-hint{opacity:1;}
-.kpi.active .kpi-hint{opacity:1;color:var(--orange);}
-.kpi.active::after{content:"✕ limpar";position:absolute;bottom:8px;right:10px;font-size:8px;color:var(--muted);letter-spacing:.5px;}
-.kpi::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;}
-.kpi.co::before{background:var(--orange)}.kpi.cg::before{background:var(--green)}
-.kpi.cd::before{background:var(--gold)} .kpi.cr::before{background:var(--red)}
-.kpi.cb::before{background:var(--blue)}
-.kpi-icon{font-size:20px;margin-bottom:10px;opacity:.75;}
-.kpi-lbl{font-size:9px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
-.kpi-val{font-family:var(--serif);font-size:30px;font-weight:700;line-height:1;}
-.kpi-val.sm{font-size:21px;}
-.kpi-sub{margin-top:6px;font-size:11px;color:var(--muted);}
+.kpi-icon{font-size:18px;margin-bottom:8px;opacity:.75;}
+.kpi-lbl{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.kpi-val{font-size:clamp(20px,3vw,30px);font-weight:700;line-height:1;}
+.kpi-val.sm{font-size:clamp(16px,2.5vw,22px);}
+.kpi-sub{margin-top:5px;font-size:11px;color:var(--muted);}
+.kpi-hint{font-size:9px;color:var(--muted);margin-top:5px;opacity:0;transition:opacity .2s;}
+.kpi:hover .kpi-hint,.kpi.active .kpi-hint{opacity:1;}
+
+/* FILTER BANNER */
+#filterBanner{display:none;align-items:center;gap:12px;background:rgba(232,98,26,.07);
+  border:1px solid rgba(232,98,26,.2);border-radius:8px;padding:10px 16px;
+  margin-bottom:18px;font-size:12px;flex-wrap:wrap;}
+
+/* GRIDS */
+.g3{display:grid;grid-template-columns:1fr 1fr 320px;gap:16px;margin-bottom:16px;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.g3e{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:16px;}
+@media(max-width:1100px){.g3{grid-template-columns:1fr 1fr;}.g3>:last-child{grid-column:span 2;}}
+@media(max-width:700px){.g3,.g2,.g3e{grid-template-columns:1fr;}.g3>:last-child{grid-column:span 1;}}
 
 /* CARD */
 .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;
-  padding:24px;box-shadow:0 2px 8px rgba(0,0,0,.04);animation:fadeUp .5s ease both;}
-.card-hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;}
-.card-title{font-family:var(--serif);font-size:19px;font-weight:600;line-height:1.2;}
+  padding:clamp(16px,2vw,24px);box-shadow:0 2px 8px rgba(0,0,0,.04);animation:fadeUp .5s ease both;}
+.card-hd{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px;gap:10px;}
+.card-title{font-size:clamp(15px,2vw,19px);font-weight:700;line-height:1.2;}
 .card-sub{font-size:11px;color:var(--muted);margin-top:3px;}
 .badge{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
-  padding:4px 10px;border-radius:20px;background:rgba(232,98,26,.1);color:var(--orange);}
+  padding:4px 10px;border-radius:20px;background:rgba(232,98,26,.1);color:var(--orange);white-space:nowrap;}
 .badge.g{background:rgba(46,125,82,.1);color:var(--green);}
-
-/* GRIDS */
-.g3{display:grid;grid-template-columns:1fr 1fr 360px;gap:18px;margin-bottom:18px;}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
-.g3e{display:grid;grid-template-columns:2fr 1fr;gap:18px;margin-bottom:18px;}
+.chart-tip{font-size:10px;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;gap:4px;}
 
 /* STATUS BARS */
-.slist{display:flex;flex-direction:column;gap:10px;margin-top:14px;}
-.srow{display:grid;grid-template-columns:130px 1fr 58px;align-items:center;gap:10px;}
+.slist{display:flex;flex-direction:column;gap:9px;margin-top:12px;}
+.srow{display:grid;grid-template-columns:120px 1fr 52px;align-items:center;gap:8px;}
 .sname{font-size:12px;font-weight:500;text-transform:capitalize;}
-.btrack{height:7px;background:var(--bg);border-radius:4px;overflow:hidden;}
+.btrack{height:6px;background:var(--bg);border-radius:4px;overflow:hidden;}
 .bfill{height:100%;border-radius:4px;transition:width 1.2s cubic-bezier(.4,0,.2,1);}
-.spct{font-family:var(--serif);font-size:16px;font-weight:600;text-align:right;}
+.spct{font-size:14px;font-weight:700;text-align:right;}
 
 /* TOP LIST */
-.tlist{display:flex;flex-direction:column;gap:12px;}
-.trow{display:grid;grid-template-columns:22px 1fr auto;align-items:center;gap:10px;}
-.trank{font-family:var(--serif);font-size:20px;font-weight:700;}
+.tlist{display:flex;flex-direction:column;gap:10px;}
+.trow{display:grid;grid-template-columns:22px 1fr auto;align-items:center;gap:10px;
+  cursor:pointer;border-radius:8px;padding:4px;margin:-4px;transition:background .15s;}
+.trow:hover{background:var(--bg);}
+.trank{font-size:18px;font-weight:700;}
 .tbwrap{display:flex;flex-direction:column;gap:4px;}
 .tname{font-size:12px;font-weight:600;}
 .ttrack{height:5px;background:var(--bg);border-radius:3px;overflow:hidden;}
 .tfill{height:100%;border-radius:3px;}
-.tval{font-family:var(--serif);font-size:15px;font-weight:600;text-align:right;white-space:nowrap;}
+.tval{font-size:14px;font-weight:700;text-align:right;white-space:nowrap;}
 
 /* RESUMO */
 .rrow{display:flex;justify-content:space-between;align-items:center;
-  padding:9px 0;border-bottom:1px solid var(--surface2);}
+  padding:8px 0;border-bottom:1px solid var(--surface2);}
 .rrow:last-child{border-bottom:none;}
 .rlbl{font-size:12px;color:var(--muted);}
-.rval{font-family:var(--serif);font-size:18px;font-weight:700;}
+.rval{font-size:17px;font-weight:700;}
 
 /* TABLE */
 .mtable{width:100%;border-collapse:collapse;font-size:12px;}
@@ -152,36 +158,32 @@ header::after{content:"";position:absolute;right:-60px;top:-60px;width:280px;hei
 
 /* FOOTER */
 footer{margin-top:48px;padding-top:20px;border-top:1px solid var(--border);
-  display:flex;justify-content:space-between;align-items:center;}
+  display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;}
 footer p{font-size:11px;color:var(--muted);}
-.fbrand{font-family:var(--serif);font-size:18px;font-weight:700;color:var(--orange);}
-
-@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
-.kpi:nth-child(1){animation-delay:.05s}.kpi:nth-child(2){animation-delay:.10s}
-.kpi:nth-child(3){animation-delay:.15s}.kpi:nth-child(4){animation-delay:.20s}
-.kpi:nth-child(5){animation-delay:.25s}
-@media print{body{background:#fff;}.page{padding:16px;}header{margin:0 -16px 24px;padding:0 16px;}}
+.fbrand{font-size:18px;font-weight:700;color:var(--orange);}
 
 /* MODAL */
 #modal{display:none;position:fixed;inset:0;z-index:1000;align-items:center;justify-content:center;padding:20px;}
 #modal.open{display:flex;}
 .modal-bg{position:absolute;inset:0;background:rgba(26,22,18,.6);backdrop-filter:blur(4px);}
-.modal-box{position:relative;background:#fff;border-radius:16px;width:100%;max-width:720px;
-  max-height:85vh;display:flex;flex-direction:column;box-shadow:0 24px 60px rgba(0,0,0,.2);
+.modal-box{position:relative;background:#fff;border-radius:16px;width:100%;max-width:780px;
+  max-height:88vh;display:flex;flex-direction:column;box-shadow:0 24px 60px rgba(0,0,0,.2);
   animation:modalIn .25s ease;}
 @keyframes modalIn{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
-.modal-hd{padding:24px 28px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:flex-start;flex-shrink:0;}
-.modal-title{font-family:var(--sans);font-size:22px;font-weight:700;}
+.modal-hd{padding:22px 26px 18px;border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:flex-start;flex-shrink:0;gap:12px;}
+.modal-title{font-size:22px;font-weight:700;}
 .modal-sub{font-size:12px;color:var(--muted);margin-top:3px;}
-.modal-close{background:none;border:1px solid var(--border);border-radius:6px;width:32px;height:32px;
-  font-size:16px;cursor:pointer;color:var(--muted);display:flex;align-items:center;justify-content:center;
-  transition:all .2s;flex-shrink:0;}
+.modal-close{background:none;border:1px solid var(--border);border-radius:6px;
+  width:32px;height:32px;font-size:16px;cursor:pointer;color:var(--muted);
+  display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;}
 .modal-close:hover{background:var(--bg);color:var(--text);}
-.modal-body{padding:20px 28px 28px;overflow-y:auto;}
-.modal-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
-.mstat{background:var(--bg);border-radius:10px;padding:14px 16px;}
+.modal-body{padding:18px 26px 26px;overflow-y:auto;}
+.modal-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;}
+@media(max-width:500px){.modal-stats{grid-template-columns:repeat(2,1fr);}}
+.mstat{background:var(--bg);border-radius:10px;padding:12px 14px;}
 .mstat-lbl{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
-.mstat-val{font-size:22px;font-weight:700;color:var(--text);}
+.mstat-val{font-size:20px;font-weight:700;}
 .mstat-val.orange{color:var(--orange);}
 .modal-table{width:100%;border-collapse:collapse;font-size:12px;}
 .modal-table th{font-size:9px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
@@ -189,19 +191,27 @@ footer p{font-size:11px;color:var(--muted);}
 .modal-table td{padding:9px 10px;border-bottom:1px solid var(--surface2);vertical-align:middle;}
 .modal-table tr:last-child td{border-bottom:none;}
 .modal-table tr:hover td{background:var(--bg);}
+.modal-table .sort-btn{cursor:pointer;user-select:none;}
+.modal-table .sort-btn:hover{color:var(--orange);}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+.kpi:nth-child(1){animation-delay:.05s}.kpi:nth-child(2){animation-delay:.1s}
+.kpi:nth-child(3){animation-delay:.15s}.kpi:nth-child(4){animation-delay:.2s}
+.kpi:nth-child(5){animation-delay:.25s}
+@media print{body{background:#fff;}header{margin:0;}}
 </style>
 </head>
 <body>
 
 <div id="loading">
   <div class="spinner"></div>
-  <div class="loading-title">Carregando dados…</div>
-  <div class="loading-sub">CONECTANDO À PLANILHA</div>
+  <div class="ld-title">Carregando dados…</div>
+  <div class="ld-sub">CONECTANDO À PLANILHA</div>
 </div>
 
 <div id="errorBar">
   ⚠ <span id="errorMsg"></span>
-  <button onclick="loadData()" style="margin-left:auto;background:none;border:1px solid var(--red);border-radius:4px;padding:3px 12px;color:var(--red);cursor:pointer;font-size:11px;font-family:var(--sans)">Tentar novamente</button>
+  <button onclick="loadData()" style="margin-left:auto;background:none;border:1px solid var(--red);border-radius:4px;padding:3px 12px;color:var(--red);cursor:pointer;font-size:11px;font-family:var(--f)">Tentar novamente</button>
 </div>
 
 <div class="page">
@@ -210,7 +220,7 @@ footer p{font-size:11px;color:var(--muted);}
       <div>
         <div class="eyebrow">Controle Operacional — Painel Executivo</div>
         <h1 class="brand" id="headerFundo">Carregando…</h1>
-        <p class="brand-sub">Métricas de Envio &amp; Desempenho Operacional · <span id="updatedAt" style="color:var(--orange)"></span></p>
+        <p class="brand-sub">Métricas de Envio &amp; Desempenho · <span id="updatedAt" style="color:var(--orange)"></span></p>
       </div>
       <div class="hdr-right">
         <div class="fw">
@@ -231,49 +241,97 @@ footer p{font-size:11px;color:var(--muted);}
 
   <div class="sl">Indicadores-Chave</div>
   <div class="kpi-strip">
-    <div class="kpi co" id="kpiTodos" onclick="setStatusFilter(null)" title="Ver todos"><div class="kpi-icon">💰</div><div class="kpi-lbl">Volume Total</div><div class="kpi-val sm" id="kV">—</div><div class="kpi-sub" id="kVs"></div><div class="kpi-hint">clique para ver todos</div></div>
-    <div class="kpi cg" id="kpiAprov" onclick="setStatusFilter('aprovado')" title="Filtrar aprovados"><div class="kpi-icon">✅</div><div class="kpi-lbl">Aprovados</div><div class="kpi-val" id="kA">—</div><div class="kpi-sub" id="kAs"></div><div class="kpi-hint">clique para filtrar</div></div>
-    <div class="kpi cd" id="kpiAnal" onclick="setStatusFilter('em análise')" title="Filtrar em análise"><div class="kpi-icon">🔍</div><div class="kpi-lbl">Em Análise</div><div class="kpi-val" id="kE">—</div><div class="kpi-sub" id="kEs"></div><div class="kpi-hint">clique para filtrar</div></div>
-    <div class="kpi cr" id="kpiReprov" onclick="setStatusFilter('reprovado')" title="Filtrar reprovados"><div class="kpi-icon">✗</div><div class="kpi-lbl">Reprovados</div><div class="kpi-val" id="kR">—</div><div class="kpi-sub" id="kRs"></div><div class="kpi-hint">clique para filtrar</div></div>
-    <div class="kpi cb" id="kpiOther" onclick="setStatusFilter('outros')" title="Filtrar outros"><div class="kpi-icon">📁</div><div class="kpi-lbl">Outros</div><div class="kpi-val" id="kO">—</div><div class="kpi-sub" id="kOs"></div><div class="kpi-hint">clique para filtrar</div></div>
+    <div class="kpi co" id="kpiTodos" onclick="setStatusFilter(null)"><div class="kpi-icon">💰</div><div class="kpi-lbl">Volume Total</div><div class="kpi-val sm" id="kV">—</div><div class="kpi-sub" id="kVs"></div><div class="kpi-hint">ver todos</div></div>
+    <div class="kpi cg" id="kpiAprov" onclick="setStatusFilter('aprovado')"><div class="kpi-icon">✅</div><div class="kpi-lbl">Aprovados</div><div class="kpi-val" id="kA">—</div><div class="kpi-sub" id="kAs"></div><div class="kpi-hint">clique para filtrar</div></div>
+    <div class="kpi cd" id="kpiAnal" onclick="setStatusFilter('em análise')"><div class="kpi-icon">🔍</div><div class="kpi-lbl">Em Análise</div><div class="kpi-val" id="kE">—</div><div class="kpi-sub" id="kEs"></div><div class="kpi-hint">clique para filtrar</div></div>
+    <div class="kpi cr" id="kpiReprov" onclick="setStatusFilter('reprovado')"><div class="kpi-icon">✗</div><div class="kpi-lbl">Reprovados</div><div class="kpi-val" id="kR">—</div><div class="kpi-sub" id="kRs"></div><div class="kpi-hint">clique para filtrar</div></div>
+    <div class="kpi cb" id="kpiOther" onclick="setStatusFilter('outros')"><div class="kpi-icon">📁</div><div class="kpi-lbl">Outros</div><div class="kpi-val" id="kO">—</div><div class="kpi-sub" id="kOs"></div><div class="kpi-hint">clique para filtrar</div></div>
   </div>
 
-  <div id="filterBanner" style="display:none;align-items:center;gap:12px;background:rgba(232,98,26,.07);border:1px solid rgba(232,98,26,.2);border-radius:8px;padding:10px 16px;margin-bottom:18px;font-size:12px;color:var(--text)"></div>
+  <div id="filterBanner"></div>
 
   <div class="sl">Análise por Fundo &amp; Carteira</div>
   <div class="g3">
-    <div class="card"><div class="card-hd"><div><div class="card-title">Volume por Fundo</div><div class="card-sub">Valor total acumulado (R$)</div></div><span class="badge">Acumulado</span></div><div style="position:relative;height:230px"><canvas id="cVF"></canvas></div></div>
-    <div class="card"><div class="card-hd"><div><div class="card-title">Operações por Fundo</div><div class="card-sub">Quantidade de operações</div></div><span class="badge g">Contagem</span></div><div style="position:relative;height:230px"><canvas id="cQF"></canvas></div></div>
-    <div class="card"><div class="card-hd"><div><div class="card-title">Carteira por Status</div><div class="card-sub">Distribuição percentual</div></div></div><div style="position:relative;height:155px"><canvas id="cST"></canvas></div><div class="slist" id="sBars"></div></div>
+    <div class="card">
+      <div class="card-hd"><div><div class="card-title">Volume por Fundo</div><div class="card-sub">Valor total acumulado (R$)</div></div><span class="badge">Acumulado</span></div>
+      <div class="chart-tip">👆 Clique em uma barra para ver detalhes</div>
+      <div style="position:relative;height:220px"><canvas id="cVF"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div><div class="card-title">Operações por Fundo</div><div class="card-sub">Quantidade de operações</div></div><span class="badge g">Contagem</span></div>
+      <div class="chart-tip">👆 Clique em uma barra para ver detalhes</div>
+      <div style="position:relative;height:220px"><canvas id="cQF"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div><div class="card-title">Carteira por Status</div><div class="card-sub">Distribuição percentual</div></div></div>
+      <div class="chart-tip">👆 Clique em um segmento para ver detalhes</div>
+      <div style="position:relative;height:150px"><canvas id="cST"></canvas></div>
+      <div class="slist" id="sBars"></div>
+    </div>
   </div>
 
   <div class="sl">Gerentes &amp; Modalidades</div>
   <div class="g2">
-    <div class="card"><div class="card-hd"><div><div class="card-title">Top Gerentes por Volume</div><div class="card-sub">Valor acumulado por responsável</div></div></div><div class="tlist" id="tGer"></div></div>
-    <div class="card"><div class="card-hd"><div><div class="card-title">Distribuição por Modalidade</div><div class="card-sub">Tipos de operação</div></div></div><div style="position:relative;height:220px"><canvas id="cMod"></canvas></div></div>
+    <div class="card">
+      <div class="card-hd"><div><div class="card-title">Top Gerentes por Volume</div><div class="card-sub">Valor acumulado por responsável</div></div></div>
+      <div class="chart-tip">👆 Clique em um gerente para ver sua carteira</div>
+      <div class="tlist" id="tGer"></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><div><div class="card-title">Distribuição por Modalidade</div><div class="card-sub">Tipos de operação</div></div></div>
+      <div class="chart-tip">👆 Clique em um segmento para ver detalhes</div>
+      <div style="position:relative;height:220px"><canvas id="cMod"></canvas></div>
+    </div>
   </div>
 
   <div class="sl">Operações Recentes &amp; Resumo</div>
   <div class="g3e">
-    <div class="card"><div class="card-hd"><div><div class="card-title">Operações Recentes</div><div class="card-sub">Ordenadas por data de envio</div></div></div>
-      <table class="mtable" id="tRec"><thead><tr><th>Cliente</th><th>Fundo</th><th>Gerente</th><th>Valor</th><th>Data Envio</th><th>Status</th></tr></thead><tbody></tbody></table>
+    <div class="card">
+      <div class="card-hd"><div><div class="card-title">Operações Recentes</div><div class="card-sub">Ordenadas por data de envio</div></div></div>
+      <div style="overflow-x:auto">
+        <table class="mtable" id="tRec">
+          <thead><tr><th>Cliente</th><th>Fundo</th><th>Gerente</th><th>Valor</th><th>Data Envio</th><th>Status</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
-    <div class="card"><div class="card-hd"><div><div class="card-title">Resumo Consolidado</div><div class="card-sub">Visão geral das métricas</div></div></div><div id="rGeral"></div></div>
+    <div class="card">
+      <div class="card-hd"><div><div class="card-title">Resumo Consolidado</div><div class="card-sub">Visão geral das métricas</div></div></div>
+      <div id="rGeral"></div>
+    </div>
   </div>
 
   <footer>
-    <p>Dados sincronizados automaticamente com Google Sheets · Uso interno — Diretoria Executiva</p>
+    <p>Sincronizado com Google Sheets · Atualiza a cada 5min · Uso interno</p>
     <div class="fbrand" id="footerFundo">—</div>
     <p id="fDate"></p>
   </footer>
 </div>
 
+<!-- MODAL -->
+<div id="modal">
+  <div class="modal-bg" onclick="closeModal()"></div>
+  <div class="modal-box">
+    <div class="modal-hd">
+      <div><div class="modal-title" id="modalTitle">—</div><div class="modal-sub" id="modalSub">—</div></div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="modal-stats">
+        <div class="mstat"><div class="mstat-lbl">Clientes</div><div class="mstat-val" id="mClientes">—</div></div>
+        <div class="mstat"><div class="mstat-lbl">Operações</div><div class="mstat-val" id="mOps">—</div></div>
+        <div class="mstat"><div class="mstat-lbl">Volume</div><div class="mstat-val orange" id="mVol">—</div></div>
+      </div>
+      <table class="modal-table">
+        <thead><tr id="modalHead"></tr></thead>
+        <tbody id="modalBody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
 <script>
-// ══════════════════════════════════════════════════════
-//  ⚙️  COLE AQUI A URL DA SUA API (Apps Script)
-// ══════════════════════════════════════════════════════
 const API_URL = "https://script.google.com/macros/s/AKfycbz-Zfq8sCC6v_K-9rUVMuRRI4TRQwhU0Y2FI0WkvBXFl0uBwM4nFjA501N3FJDZZnC1/exec";
-// ══════════════════════════════════════════════════════
 
 const C={orange:"#E8621A",orangeL:"#F28C4E",green:"#2E7D52",gold:"#C9962A",red:"#C0392B",blue:"#2A6496",purple:"#7B3F8C",muted:"#7A7268"};
 const ST_C={"aprovado":C.green,"reprovado":C.red,"em análise":C.gold,"encerrado":C.muted,"pausado":C.purple,"pago":C.blue,"declinado cliente":C.red,"pendência documental":C.gold};
@@ -283,120 +341,94 @@ Chart.defaults.font={family:"'Outfit',sans-serif",size:11};
 Chart.defaults.color=C.muted;
 const noL={display:false};
 const grd={color:"#E2DDD6",drawBorder:false};
-let charts={}, allRows=[], activeStatus=null;
+let charts={}, allRows=[], activeStatus=null, _rows=[];
 
 function normSt(s){return String(s||"").trim().toLowerCase();}
-function fmtM(v){if(v>=1e6)return"R$ "+(v/1e6).toFixed(2).replace(".",",")+" M";if(v>=1e3)return"R$ "+(v/1e3).toFixed(0)+" K";return"R$ "+v.toFixed(0);}
+function fmtM(v){if(v>=1e6)return"R$ "+(v/1e6).toFixed(2).replace(".",",")+"\u00a0M";if(v>=1e3)return"R$ "+(v/1e3).toFixed(0)+" K";return"R$ "+v.toFixed(0);}
 function pct(n,t){return t?((n/t)*100).toFixed(1):"0.0";}
 function sortD(o){return Object.entries(o).sort((a,b)=>b[1]-a[1]);}
 function dest(id){if(charts[id]){charts[id].destroy();delete charts[id];}}
 function hex2rgb(h){return[1,3,5].map(i=>parseInt(h.slice(i,i+2),16)).join(",");}
-function toDate(s){if(!s)return 0;const[d,m,y]=s.split("/");return new Date(y,m-1,d);}
+function toDate(s){if(!s)return 0;const p=s.split("/");return new Date(p[2],p[1]-1,p[0]);}
 
-// ── LOAD DATA ─────────────────────────────────────────
+// ── LOAD ─────────────────────────────────────────────
 async function loadData(){
   const btn=document.getElementById("refreshBtn");
-  btn.classList.add("loading");
-  btn.textContent="↻ Atualizando…";
+  btn.classList.add("loading");btn.textContent="↻ Atualizando…";
   document.getElementById("errorBar").style.display="none";
-
-  try {
-    const res  = await fetch(API_URL);
-    const json = await res.json();
-
-    if(json.error) throw new Error(json.error);
-
-    allRows = json.data;
-
-    // Populate fundo selector
+  try{
+    const res=await fetch(API_URL);
+    const json=await res.json();
+    if(json.error)throw new Error(json.error);
+    allRows=json.data;
     const fundos=[...new Set(allRows.map(r=>r.fundo).filter(Boolean))].sort();
     const sel=document.getElementById("fundoSelect");
     const cur=sel.value;
     sel.innerHTML="<option value=''>Todos os Fundos</option>";
     fundos.forEach(f=>sel.innerHTML+=`<option value="${f}"${f===cur?" selected":""}>${f}</option>`);
-
-    // Update timestamp
     document.getElementById("updatedAt").textContent="Atualizado em "+json.updated;
     document.getElementById("fDate").textContent=json.updated;
-
     renderAll();
-
-  } catch(e){
-    document.getElementById("errorMsg").textContent="Erro ao carregar dados: "+e.message;
+  }catch(e){
+    document.getElementById("errorMsg").textContent="Erro: "+e.message;
     document.getElementById("errorBar").style.display="flex";
-  } finally {
-    btn.classList.remove("loading");
-    btn.textContent="↻ Atualizar";
+    document.getElementById("loading").style.display="none";
+  }finally{
+    btn.classList.remove("loading");btn.textContent="↻ Atualizar";
   }
 }
 
 // ── STATUS FILTER ─────────────────────────────────────
 function setStatusFilter(status){
-  // If clicking same filter, clear it
-  if(activeStatus===status){ activeStatus=null; }
-  else { activeStatus=status; }
-
-  // Update active state on cards
-  ["kpiTodos","kpiAprov","kpiAnal","kpiReprov","kpiOther"].forEach(id=>{
-    document.getElementById(id).classList.remove("active");
-  });
-  if(activeStatus===null) document.getElementById("kpiTodos").classList.add("active");
-  else if(activeStatus==="aprovado") document.getElementById("kpiAprov").classList.add("active");
-  else if(activeStatus==="em análise") document.getElementById("kpiAnal").classList.add("active");
-  else if(activeStatus==="reprovado") document.getElementById("kpiReprov").classList.add("active");
-  else if(activeStatus==="outros") document.getElementById("kpiOther").classList.add("active");
-
+  activeStatus=(activeStatus===status)?null:status;
+  ["kpiTodos","kpiAprov","kpiAnal","kpiReprov","kpiOther"].forEach(id=>document.getElementById(id).classList.remove("active"));
+  if(activeStatus===null)document.getElementById("kpiTodos").classList.add("active");
+  else if(activeStatus==="aprovado")document.getElementById("kpiAprov").classList.add("active");
+  else if(activeStatus==="em análise")document.getElementById("kpiAnal").classList.add("active");
+  else if(activeStatus==="reprovado")document.getElementById("kpiReprov").classList.add("active");
+  else if(activeStatus==="outros")document.getElementById("kpiOther").classList.add("active");
   renderAll();
 }
 
-// ── RENDER ────────────────────────────────────────────
+// ── RENDER ─────────────────────────────────────────────
 function renderAll(){
   const fundo=document.getElementById("fundoSelect").value;
   let rows=fundo?allRows.filter(r=>r.fundo===fundo):allRows;
-
-  // Apply status filter if active
   const OTHER_ST=["aprovado","reprovado","em análise"];
-  if(activeStatus==="aprovado") rows=rows.filter(r=>normSt(r.status)==="aprovado");
-  else if(activeStatus==="em análise") rows=rows.filter(r=>normSt(r.status)==="em análise");
-  else if(activeStatus==="reprovado") rows=rows.filter(r=>["reprovado","declinado cliente"].includes(normSt(r.status)));
-  else if(activeStatus==="outros") rows=rows.filter(r=>!OTHER_ST.includes(normSt(r.status)));
+  if(activeStatus==="aprovado")rows=rows.filter(r=>normSt(r.status)==="aprovado");
+  else if(activeStatus==="em análise")rows=rows.filter(r=>normSt(r.status)==="em análise");
+  else if(activeStatus==="reprovado")rows=rows.filter(r=>["reprovado","declinado cliente"].includes(normSt(r.status)));
+  else if(activeStatus==="outros")rows=rows.filter(r=>!OTHER_ST.includes(normSt(r.status)));
+  _rows=rows;
 
-  // Show active filter banner
-  const banner=document.getElementById("filterBanner");
-  if(activeStatus){
-    const labels={"aprovado":"Aprovados","em análise":"Em Análise","reprovado":"Reprovados","outros":"Outros Status"};
-    banner.style.display="flex";
-    banner.innerHTML=`<span>🔽 Filtrando por status: <strong>${labels[activeStatus]||activeStatus}</strong> — ${rows.length} operações</span><button onclick="setStatusFilter(null)" style="margin-left:auto;background:none;border:1px solid var(--orange);border-radius:4px;padding:2px 10px;color:var(--orange);cursor:pointer;font-size:11px;font-family:var(--sans)">✕ Limpar filtro</button>`;
-  } else {
-    banner.style.display="none";
-  }
-  const n=rows.length;
-  const nome=fundo||"Todos os Fundos";
-
-  // Header & footer dinâmicos
+  const n=rows.length, nome=fundo||"Todos os Fundos";
   document.getElementById("headerFundo").textContent=nome;
   document.getElementById("footerFundo").textContent=nome;
   document.getElementById("metaN").textContent=n;
-  document.title="FIDC — "+nome;
+  document.title="FIDC \u2014 "+nome;
   document.getElementById("loading").style.display="none";
 
-  // Agregações
+  // Filter banner
+  const banner=document.getElementById("filterBanner");
+  if(activeStatus){
+    const lbl={"aprovado":"Aprovados","em análise":"Em Análise","reprovado":"Reprovados","outros":"Outros Status"};
+    banner.style.display="flex";
+    banner.innerHTML=`<span>🔽 Filtrando: <strong>${lbl[activeStatus]}</strong> — ${n} operações</span><button onclick="setStatusFilter(null)" style="margin-left:auto;background:none;border:1px solid var(--orange);border-radius:4px;padding:2px 10px;color:var(--orange);cursor:pointer;font-size:11px;font-family:var(--f)">✕ Limpar</button>`;
+  }else{banner.style.display="none";}
+
+  // Agg
   let vol=0;
   const bySt={},byFV={},byFQ={},byGer={},byMod={};
-  // Para volume por gerente: pega o maior valor por cliente+gerente (evita somar múltiplas linhas do mesmo cliente)
   const gerCliMax={};
   rows.forEach(r=>{
     const v=r.operacao||0,st=normSt(r.status),fu=r.fundo||"Outros",ge=r.gerente||"Outros",mo=r.modalidade||"Outros";
     vol+=v;bySt[st]=(bySt[st]||0)+1;byFV[fu]=(byFV[fu]||0)+v;byFQ[fu]=(byFQ[fu]||0)+1;byMod[mo]=(byMod[mo]||0)+1;
-    // Gerente: considera apenas o maior valor por cliente
-    const key=ge+"||"+(r.cliente||"");
-    if(!gerCliMax[key]||v>gerCliMax[key].v) gerCliMax[key]={ge,v};
+    const k=ge+"||"+(r.cliente||"");
+    if(!gerCliMax[k]||v>gerCliMax[k].v)gerCliMax[k]={ge,v};
   });
-  // Agrupa os maiores valores por gerente
-  Object.values(gerCliMax).forEach(({ge,v})=>{ byGer[ge]=(byGer[ge]||0)+v; });
+  Object.values(gerCliMax).forEach(({ge,v})=>{byGer[ge]=(byGer[ge]||0)+v;});
 
   const aprov=bySt["aprovado"]||0,reprov=(bySt["reprovado"]||0)+(bySt["declinado cliente"]||0),anal=bySt["em análise"]||0,other=n-aprov-reprov-anal;
-
   const K=(id,v)=>document.getElementById(id).textContent=v;
   K("kV",fmtM(vol));K("kVs",n+" operações");
   K("kA",aprov);K("kAs",pct(aprov,n)+"% do total");
@@ -404,150 +436,170 @@ function renderAll(){
   K("kR",reprov);K("kRs",pct(reprov,n)+"% do total");
   K("kO",other);K("kOs",pct(other,n)+"% do total");
 
-  // Volume por Fundo
+  // Chart: Volume por Fundo (clickable)
   dest("cVF");
   const fvE=sortD(byFV).slice(0,9);
-  charts["cVF"]=new Chart(document.getElementById("cVF"),{type:"bar",data:{labels:fvE.map(e=>e[0]),datasets:[{data:fvE.map(e=>e[1]),backgroundColor:fvE.map((_,i)=>`rgba(${hex2rgb(C.orange)},${1-i*0.08})`),borderRadius:5,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:noL,tooltip:{callbacks:{label:c=>" "+fmtM(c.raw)}}},scales:{x:{grid:{display:false},ticks:{maxRotation:35,font:{size:9}}},y:{grid:grd,border:{display:false},ticks:{callback:v=>fmtM(v),font:{size:9}}}}}});
+  charts["cVF"]=new Chart(document.getElementById("cVF"),{
+    type:"bar",
+    data:{labels:fvE.map(e=>e[0]),datasets:[{data:fvE.map(e=>e[1]),backgroundColor:fvE.map((_,i)=>`rgba(${hex2rgb(C.orange)},${1-i*0.08})`),borderRadius:5,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:noL,tooltip:{callbacks:{label:c=>" "+fmtM(c.raw)}}},
+      scales:{x:{grid:{display:false},ticks:{maxRotation:35,font:{size:9}}},y:{grid:grd,border:{display:false},ticks:{callback:v=>fmtM(v),font:{size:9}}}},
+      onClick:(_,els)=>{if(els.length)openModal("fundo",fvE[els[0].index][0],rows);}}
+  });
 
-  // Qtd por Fundo
+  // Chart: Qtd por Fundo (clickable)
   dest("cQF");
   const fqE=sortD(byFQ).slice(0,9);
-  charts["cQF"]=new Chart(document.getElementById("cQF"),{type:"bar",data:{labels:fqE.map(e=>e[0]),datasets:[{data:fqE.map(e=>e[1]),backgroundColor:fqE.map((_,i)=>`rgba(${hex2rgb(C.green)},${1-i*0.08})`),borderRadius:5,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:noL},scales:{x:{grid:{display:false},ticks:{maxRotation:35,font:{size:9}}},y:{grid:grd,border:{display:false},ticks:{stepSize:1}}}}});
+  charts["cQF"]=new Chart(document.getElementById("cQF"),{
+    type:"bar",
+    data:{labels:fqE.map(e=>e[0]),datasets:[{data:fqE.map(e=>e[1]),backgroundColor:fqE.map((_,i)=>`rgba(${hex2rgb(C.green)},${1-i*0.08})`),borderRadius:5,borderSkipped:false}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:noL},
+      scales:{x:{grid:{display:false},ticks:{maxRotation:35,font:{size:9}}},y:{grid:grd,border:{display:false},ticks:{stepSize:1}}},
+      onClick:(_,els)=>{if(els.length)openModal("fundo",fqE[els[0].index][0],rows);}}
+  });
 
-  // Status Donut
+  // Chart: Status donut (clickable)
   dest("cST");
   const stE=sortD(bySt).filter(e=>e[0]);
-  charts["cST"]=new Chart(document.getElementById("cST"),{type:"doughnut",data:{labels:stE.map(e=>e[0]),datasets:[{data:stE.map(e=>e[1]),backgroundColor:stE.map(e=>ST_C[e[0]]||C.muted),borderWidth:2,borderColor:"#fff",hoverOffset:6}]},options:{responsive:true,maintainAspectRatio:false,cutout:"64%",plugins:{legend:noL,tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw} (${pct(c.raw,n)}%)`}}}}});
+  charts["cST"]=new Chart(document.getElementById("cST"),{
+    type:"doughnut",
+    data:{labels:stE.map(e=>e[0]),datasets:[{data:stE.map(e=>e[1]),backgroundColor:stE.map(e=>ST_C[e[0]]||C.muted),borderWidth:2,borderColor:"#fff",hoverOffset:6}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:"64%",
+      plugins:{legend:noL,tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw} (${pct(c.raw,n)}%)`}}},
+      onClick:(_,els)=>{if(els.length)openModal("status",stE[els[0].index][0],rows);}}
+  });
   const sb=document.getElementById("sBars");sb.innerHTML="";
-  stE.forEach(([st,q])=>{const p=pct(q,n),cor=ST_C[st]||C.muted;sb.innerHTML+=`<div class="srow"><span class="sname">${st}</span><div class="btrack"><div class="bfill" style="width:${p}%;background:${cor}"></div></div><span class="spct">${p}%</span></div>`;});
+  stE.forEach(([st,q])=>{const p=pct(q,n),cor=ST_C[st]||C.muted;
+    sb.innerHTML+=`<div class="srow" style="cursor:pointer" onclick="openModal('status','${st}',window._rows)">
+      <span class="sname">${st}</span>
+      <div class="btrack"><div class="bfill" style="width:${p}%;background:${cor}"></div></div>
+      <span class="spct" style="color:${cor}">${p}%</span></div>`;
+  });
 
   // Gerentes
   const gC=[C.orange,C.orangeL,C.gold,C.green,C.blue,C.purple];
   const gE=sortD(byGer).slice(0,6),mxG=gE[0]?.[1]||1;
   const tg=document.getElementById("tGer");tg.innerHTML="";
-  const _rows=rows; // capture for modal closure
   gE.forEach(([g,v],i)=>{const cor=gC[i]||C.muted,w=((v/mxG)*100).toFixed(0);
-    tg.innerHTML+=`<div class="trow" onclick="openGerente('${g.replace(/'/g,"\'")}',window._lastRows)" style="cursor:pointer;border-radius:8px;padding:4px;margin:-4px;transition:background .15s" onmouseover="this.style.background='#F5F3EF'" onmouseout="this.style.background=''">`+
-    `<span class="trank" style="color:${cor}">${i+1}</span><div class="tbwrap"><span class="tname">${g}</span>`+
-    `<div class="ttrack"><div class="tfill" style="width:${w}%;background:${cor}"></div></div></div>`+
-    `<span class="tval" style="color:${cor}">${fmtM(v)} <span style="font-size:9px;color:var(--muted);font-weight:400">↗</span></span></div>`;
+    tg.innerHTML+=`<div class="trow" onclick="openModal('gerente','${g.replace(/'/g,"\\'")}',window._rows)">
+      <span class="trank" style="color:${cor}">${i+1}</span>
+      <div class="tbwrap"><span class="tname">${g}</span>
+      <div class="ttrack"><div class="tfill" style="width:${w}%;background:${cor}"></div></div></div>
+      <span class="tval" style="color:${cor}">${fmtM(v)} <span style="font-size:9px;opacity:.5">↗</span></span></div>`;
   });
-  window._lastRows = _rows;
 
-  // Modalidade
+  // Chart: Modalidade (clickable)
   dest("cMod");
   const mE=sortD(byMod).filter(e=>e[0]).slice(0,7);
-  charts["cMod"]=new Chart(document.getElementById("cMod"),{type:"doughnut",data:{labels:mE.map(e=>e[0]),datasets:[{data:mE.map(e=>e[1]),backgroundColor:[C.orange,C.green,C.blue,C.gold,C.purple,C.muted,C.orangeL],borderWidth:2,borderColor:"#fff",hoverOffset:4}]},options:{responsive:true,maintainAspectRatio:false,cutout:"48%",plugins:{legend:{display:true,position:"right",labels:{boxWidth:10,padding:12,font:{size:10}}},tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw}`}}}}});
+  charts["cMod"]=new Chart(document.getElementById("cMod"),{
+    type:"doughnut",
+    data:{labels:mE.map(e=>e[0]),datasets:[{data:mE.map(e=>e[1]),backgroundColor:[C.orange,C.green,C.blue,C.gold,C.purple,C.muted,C.orangeL],borderWidth:2,borderColor:"#fff",hoverOffset:4}]},
+    options:{responsive:true,maintainAspectRatio:false,cutout:"48%",
+      plugins:{legend:{display:true,position:"right",labels:{boxWidth:10,padding:12,font:{size:10}}},
+        tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw}`}}},
+      onClick:(_,els)=>{if(els.length)openModal("modalidade",mE[els[0].index][0],rows);}}
+  });
 
-  // Recentes — ordenadas por data desc
+  // Recentes
   const tb=document.querySelector("#tRec tbody");tb.innerHTML="";
   [...rows].sort((a,b)=>toDate(b.dataEnvio)-toDate(a.dataEnvio)).slice(0,12).forEach(r=>{
     const st=normSt(r.status),sty=ST_P[st]||"background:#eee;color:#666",v=r.operacao||0;
     tb.innerHTML+=`<tr>
       <td style="font-weight:600;max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.cliente||"—"}</td>
-      <td style="color:var(--muted);font-size:11px">${(r.fundo||"—").substring(0,14)}</td>
-      <td style="color:var(--muted);font-size:11px">${(r.gerente||"—").substring(0,12)}</td>
-      <td style="font-family:var(--serif);font-size:13px;font-weight:600;color:var(--orange)">${v>0?fmtM(v):"—"}</td>
+      <td style="color:var(--muted)">${(r.fundo||"—").substring(0,14)}</td>
+      <td style="color:var(--muted)">${(r.gerente||"—").substring(0,12)}</td>
+      <td style="font-weight:700;color:var(--orange)">${v>0?fmtM(v):"—"}</td>
       <td style="color:var(--muted);font-size:11px">${r.dataEnvio||"—"}</td>
-      <td><span class="pill" style="${sty}">${r.status||"—"}</span></td>
-    </tr>`;
+      <td><span class="pill" style="${sty}">${r.status||"—"}</span></td></tr>`;
   });
 
   // Resumo
   const fSet=new Set(rows.map(r=>r.fundo).filter(Boolean));
   const gSet=new Set(rows.map(r=>r.gerente).filter(Boolean));
-  const items=[
-    {l:"Total de Operações",v:n,cor:C.orange},
-    {l:"Volume Total",v:fmtM(vol),cor:C.orange},
-    {l:"Fundos Ativos",v:fSet.size,cor:C.blue},
-    {l:"Gerentes Ativos",v:gSet.size,cor:C.green},
-    {l:"Taxa de Aprovação",v:pct(aprov,n)+"%",cor:C.green},
-    {l:"Taxa de Reprovação",v:pct(reprov,n)+"%",cor:C.red},
-    {l:"Em Análise",v:pct(anal,n)+"%",cor:C.gold},
-  ];
+  const items=[{l:"Total de Operações",v:n,c:C.orange},{l:"Volume Total",v:fmtM(vol),c:C.orange},
+    {l:"Fundos Ativos",v:fSet.size,c:C.blue},{l:"Gerentes Ativos",v:gSet.size,c:C.green},
+    {l:"Taxa de Aprovação",v:pct(aprov,n)+"%",c:C.green},{l:"Taxa de Reprovação",v:pct(reprov,n)+"%",c:C.red},
+    {l:"Em Análise",v:pct(anal,n)+"%",c:C.gold}];
   const rg=document.getElementById("rGeral");rg.innerHTML="";
-  items.forEach(it=>rg.innerHTML+=`<div class="rrow"><span class="rlbl">${it.l}</span><span class="rval" style="color:${it.cor}">${it.v}</span></div>`);
+  items.forEach(it=>rg.innerHTML+=`<div class="rrow"><span class="rlbl">${it.l}</span><span class="rval" style="color:${it.c}">${it.v}</span></div>`);
+
+  window._rows=rows;
 }
 
-
 // ── MODAL ─────────────────────────────────────────────
-function openGerente(gerente, allRowsFiltered){
-  const rows = allRowsFiltered.filter(r => (r.gerente||"Outros") === gerente);
-  
-  // Unique clients with max value
-  // Volume: soma apenas o maior valor por cliente (para não duplicar)
-  const cliMaxMap = {};
-  rows.forEach(r => {
-    const k = r.cliente||"—";
-    if(!cliMaxMap[k] || (r.operacao||0) > cliMaxMap[k]) cliMaxMap[k] = r.operacao||0;
+function openModal(tipo, valor, rows){
+  let filtered, title, sub, cols;
+
+  if(tipo==="fundo"){
+    filtered=rows.filter(r=>(r.fundo||"Outros")===valor);
+    title=valor; sub="Todas as operações neste fundo";
+    cols=["Cliente","Gerente","Modalidade","Valor","Status"];
+  } else if(tipo==="status"){
+    filtered=rows.filter(r=>{
+      const st=normSt(r.status);
+      if(valor==="reprovado")return["reprovado","declinado cliente"].includes(st);
+      return st===valor;
+    });
+    title=valor.charAt(0).toUpperCase()+valor.slice(1);
+    sub="Operações com este status";
+    cols=["Cliente","Fundo","Gerente","Valor","Data Envio"];
+  } else if(tipo==="gerente"){
+    filtered=rows.filter(r=>(r.gerente||"Outros")===valor);
+    title=valor; sub="Todas as operações por cliente e fundo";
+    cols=["Cliente","Fundo","Modalidade","Valor","Status"];
+  } else if(tipo==="modalidade"){
+    filtered=rows.filter(r=>(r.modalidade||"Outros")===valor);
+    title=valor; sub="Operações nesta modalidade";
+    cols=["Cliente","Fundo","Gerente","Valor","Status"];
+  }
+
+  // Stats — volume usa maior valor por cliente
+  const cliMaxMap={};
+  filtered.forEach(r=>{
+    const k=r.cliente||"—";
+    if(!cliMaxMap[k]||(r.operacao||0)>cliMaxMap[k])cliMaxMap[k]=r.operacao||0;
   });
-  const clientesUnicos = Object.keys(cliMaxMap);
-  const volTotal = Object.values(cliMaxMap).reduce((s,v) => s+v, 0);
+  const volTotal=Object.values(cliMaxMap).reduce((s,v)=>s+v,0);
+  const clientesUnicos=Object.keys(cliMaxMap).length;
 
-  document.getElementById("modalTitle").textContent = gerente;
-  document.getElementById("modalSub").textContent = "Todas as operações por cliente e fundo";
-  document.getElementById("modalClientes").textContent = clientesUnicos.length;
-  document.getElementById("modalOps").textContent = rows.length;
-  document.getElementById("modalVol").textContent = fmtM(volTotal);
+  document.getElementById("modalTitle").textContent=title;
+  document.getElementById("modalSub").textContent=sub;
+  document.getElementById("mClientes").textContent=clientesUnicos;
+  document.getElementById("mOps").textContent=filtered.length;
+  document.getElementById("mVol").textContent=fmtM(volTotal);
 
-  const tbody = document.getElementById("modalBody");
-  tbody.innerHTML = "";
-  // Mostra TODAS as linhas, ordenadas por cliente e depois valor desc
-  [...rows].sort((a,b) => {
-    if((a.cliente||"") < (b.cliente||"")) return -1;
-    if((a.cliente||"") > (b.cliente||"")) return 1;
-    return (b.operacao||0) - (a.operacao||0);
-  }).forEach(r => {
-    const st = normSt(r.status);
-    const sty = ST_P[st] || "background:#eee;color:#666";
-    tbody.innerHTML += `<tr>
-      <td style="font-weight:600">${r.cliente||"—"}</td>
-      <td style="color:var(--muted)">${r.fundo||"—"}</td>
-      <td style="color:var(--muted);font-size:11px">${r.modalidade||"—"}</td>
-      <td style="font-weight:700;color:var(--orange)">${r.operacao>0?fmtM(r.operacao):"—"}</td>
-      <td><span class="pill" style="${sty}">${r.status||"—"}</span></td>
-    </tr>`;
+  // Table header
+  document.getElementById("modalHead").innerHTML=cols.map(c=>`<th>${c}</th>`).join("");
+
+  // Table body — all rows, sorted by value desc
+  const tbody=document.getElementById("modalBody");tbody.innerHTML="";
+  [...filtered].sort((a,b)=>(b.operacao||0)-(a.operacao||0)).forEach(r=>{
+    const st=normSt(r.status),sty=ST_P[st]||"background:#eee;color:#666",v=r.operacao||0;
+    const cells={
+      "Cliente":`<td style="font-weight:600">${r.cliente||"—"}</td>`,
+      "Fundo":`<td style="color:var(--muted)">${r.fundo||"—"}</td>`,
+      "Gerente":`<td style="color:var(--muted)">${r.gerente||"—"}</td>`,
+      "Modalidade":`<td style="color:var(--muted);font-size:11px">${r.modalidade||"—"}</td>`,
+      "Valor":`<td style="font-weight:700;color:var(--orange)">${v>0?fmtM(v):"—"}</td>`,
+      "Status":`<td><span class="pill" style="${sty}">${r.status||"—"}</span></td>`,
+      "Data Envio":`<td style="color:var(--muted);font-size:11px">${r.dataEnvio||"—"}</td>`,
+    };
+    tbody.innerHTML+=`<tr>${cols.map(c=>cells[c]||"<td>—</td>").join("")}</tr>`;
   });
 
   document.getElementById("modal").classList.add("open");
-  document.body.style.overflow = "hidden";
+  document.body.style.overflow="hidden";
 }
 
 function closeModal(){
   document.getElementById("modal").classList.remove("open");
-  document.body.style.overflow = "";
+  document.body.style.overflow="";
 }
-
-document.addEventListener("keydown", e => { if(e.key === "Escape") closeModal(); });
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal();});
 
 // ── INIT ──────────────────────────────────────────────
 loadData();
-// Auto-refresh a cada 5 minutos
-setInterval(loadData, 5 * 60 * 1000);
+setInterval(loadData, 5*60*1000);
 </script>
-
-<div id="modal">
-  <div class="modal-bg" onclick="closeModal()"></div>
-  <div class="modal-box">
-    <div class="modal-hd">
-      <div>
-        <div class="modal-title" id="modalTitle">—</div>
-        <div class="modal-sub" id="modalSub">—</div>
-      </div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <div class="modal-body">
-      <div class="modal-stats">
-        <div class="mstat"><div class="mstat-lbl">Clientes</div><div class="mstat-val" id="modalClientes">—</div></div>
-        <div class="mstat"><div class="mstat-lbl">Operações</div><div class="mstat-val" id="modalOps">—</div></div>
-        <div class="mstat"><div class="mstat-lbl">Volume Total</div><div class="mstat-val orange" id="modalVol">—</div></div>
-      </div>
-      <table class="modal-table">
-        <thead><tr><th>Cliente</th><th>Fundo</th><th>Modalidade</th><th>Valor</th><th>Status</th></tr></thead>
-        <tbody id="modalBody"></tbody>
-      </table>
-    </div>
-  </div>
-</div>
 </body>
 </html>
