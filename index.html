@@ -35,12 +35,12 @@ body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
 .page{max-width:1500px;margin:0 auto;padding:0 clamp(16px,4vw,40px) 60px;position:relative;z-index:1;}
 
 /* HEADER */
-header{background:#1A1612;margin:0 calc(-1*clamp(16px,4vw,40px)) clamp(24px,3vw,36px);
+header{background:#4A4A4A;margin:0 calc(-1*clamp(16px,4vw,40px)) clamp(24px,3vw,36px);
   padding:0 clamp(16px,4vw,40px);position:relative;overflow:hidden;}
 header::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;
   background:linear-gradient(90deg,var(--orange),var(--gold),var(--orange));}
 header::after{content:"";position:absolute;right:-60px;top:-60px;width:280px;height:280px;
-  background:radial-gradient(circle,rgba(232,98,26,.08) 0%,transparent 70%);pointer-events:none;}
+  background:radial-gradient(circle,rgba(232,98,26,.05) 0%,transparent 70%);pointer-events:none;}
 .hdr{display:flex;justify-content:space-between;align-items:center;
   padding:clamp(18px,2.5vw,28px) 0 clamp(16px,2vw,24px);gap:20px;flex-wrap:wrap;}
 .eyebrow{font-size:9px;font-weight:600;letter-spacing:4px;text-transform:uppercase;color:var(--orange);margin-bottom:4px;}
@@ -55,7 +55,7 @@ header::after{content:"";position:absolute;right:-60px;top:-60px;width:280px;hei
 .fsep{width:1px;height:18px;background:rgba(255,255,255,.15);}
 #fundoSelect{background:none;border:none;font-family:var(--f);font-size:14px;
   font-weight:600;color:var(--orange);cursor:pointer;outline:none;min-width:140px;max-width:200px;}
-#fundoSelect option{background:#1A1612;color:#fff;}
+#fundoSelect option{background:#4A4A4A;color:#fff;}
 .hdr-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 .mpill{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.10);
   border-radius:20px;padding:4px 12px;font-size:10px;color:#888;}
@@ -66,7 +66,7 @@ header::after{content:"";position:absolute;right:-60px;top:-60px;width:280px;hei
 #refreshBtn.loading{opacity:.5;pointer-events:none;}
 
 /* SECTION LABEL */
-.sl{font-size:9px;font-weight:600;letter-spacing:4px;text-transform:uppercase;
+.sl{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:none;
   color:var(--muted);margin-bottom:14px;display:flex;align-items:center;gap:12px;}
 .sl::after{content:"";flex:1;height:1px;background:var(--border);}
 
@@ -117,7 +117,7 @@ header::after{content:"";position:absolute;right:-60px;top:-60px;width:280px;hei
 .badge{font-size:9px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
   padding:4px 10px;border-radius:20px;background:rgba(232,98,26,.1);color:var(--orange);white-space:nowrap;}
 .badge.g{background:rgba(46,125,82,.1);color:var(--green);}
-.chart-tip{font-size:10px;color:var(--muted);margin-bottom:8px;display:flex;align-items:center;gap:4px;}
+.chart-tip{font-size:10px;color:#BBBBBB;margin-bottom:8px;display:flex;align-items:center;gap:4px;font-style:italic;}
 
 /* STATUS BARS */
 .slist{display:flex;flex-direction:column;gap:9px;margin-top:12px;}
@@ -239,55 +239,55 @@ footer p{font-size:11px;color:var(--muted);}
     </div>
   </header>
 
-  <div class="sl">Indicadores-Chave</div>
+  <div class="sl">Indicadores-chave</div>
   <div class="kpi-strip">
-    <div class="kpi co" id="kpiTodos" onclick="setStatusFilter(null)"><div class="kpi-icon">💰</div><div class="kpi-lbl">Volume Total</div><div class="kpi-val sm" id="kV">—</div><div class="kpi-sub" id="kVs"></div><div class="kpi-hint">ver todos</div></div>
-    <div class="kpi cg" id="kpiAprov" onclick="setStatusFilter('aprovado')"><div class="kpi-icon">✅</div><div class="kpi-lbl">Aprovados</div><div class="kpi-val" id="kA">—</div><div class="kpi-sub" id="kAs"></div><div class="kpi-hint">clique para filtrar</div></div>
-    <div class="kpi cd" id="kpiAnal" onclick="setStatusFilter('em análise')"><div class="kpi-icon">🔍</div><div class="kpi-lbl">Em Análise</div><div class="kpi-val" id="kE">—</div><div class="kpi-sub" id="kEs"></div><div class="kpi-hint">clique para filtrar</div></div>
-    <div class="kpi cr" id="kpiReprov" onclick="setStatusFilter('reprovado')"><div class="kpi-icon">✗</div><div class="kpi-lbl">Reprovados</div><div class="kpi-val" id="kR">—</div><div class="kpi-sub" id="kRs"></div><div class="kpi-hint">clique para filtrar</div></div>
-    <div class="kpi cb" id="kpiOther" onclick="setStatusFilter('outros')"><div class="kpi-icon">📁</div><div class="kpi-lbl">Outros</div><div class="kpi-val" id="kO">—</div><div class="kpi-sub" id="kOs"></div><div class="kpi-hint">clique para filtrar</div></div>
+    <div class="kpi co" id="kpiTodos" onclick="setStatusFilter(null)"><div class="kpi-icon"></div><div class="kpi-lbl">Volume Total</div><div class="kpi-val sm" id="kV">—</div><div class="kpi-sub" id="kVs"></div><div class="kpi-hint">ver todos</div></div>
+    <div class="kpi cg" id="kpiAprov" onclick="setStatusFilter('aprovado')"><div class="kpi-icon"></div><div class="kpi-lbl">Aprovados</div><div class="kpi-val" id="kA">—</div><div class="kpi-sub" id="kAs"></div><div class="kpi-hint">clique para filtrar</div></div>
+    <div class="kpi cd" id="kpiAnal" onclick="setStatusFilter('em análise')"><div class="kpi-icon"></div><div class="kpi-lbl">Em Análise</div><div class="kpi-val" id="kE">—</div><div class="kpi-sub" id="kEs"></div><div class="kpi-hint">clique para filtrar</div></div>
+    <div class="kpi cr" id="kpiReprov" onclick="setStatusFilter('reprovado')"><div class="kpi-icon">×</div><div class="kpi-lbl">Reprovados</div><div class="kpi-val" id="kR">—</div><div class="kpi-sub" id="kRs"></div><div class="kpi-hint">clique para filtrar</div></div>
+    <div class="kpi cb" id="kpiOther" onclick="setStatusFilter('outros')"><div class="kpi-icon"></div><div class="kpi-lbl">Outros</div><div class="kpi-val" id="kO">—</div><div class="kpi-sub" id="kOs"></div><div class="kpi-hint">clique para filtrar</div></div>
   </div>
 
   <div id="filterBanner"></div>
 
-  <div class="sl">Análise por Fundo &amp; Carteira</div>
+  <div class="sl">Análise por fundo &amp; carteira</div>
   <div class="g3">
     <div class="card">
-      <div class="card-hd"><div><div class="card-title">Volume por Fundo</div><div class="card-sub">Valor total acumulado (R$)</div></div><span class="badge">Acumulado</span></div>
-      <div class="chart-tip">👆 Clique em uma barra para ver detalhes</div>
+      <div class="card-hd"><div><div class="card-title">Volume por fundo</div><div class="card-sub">Valor total acumulado (R$)</div></div><span class="badge">Acumulado</span></div>
+      <div class="chart-tip">Clique em uma barra para ver detalhes</div>
       <div style="position:relative;height:220px"><canvas id="cVF"></canvas></div>
     </div>
     <div class="card">
-      <div class="card-hd"><div><div class="card-title">Operações por Fundo</div><div class="card-sub">Quantidade de operações</div></div><span class="badge g">Contagem</span></div>
-      <div class="chart-tip">👆 Clique em uma barra para ver detalhes</div>
+      <div class="card-hd"><div><div class="card-title">Operações por fundo</div><div class="card-sub">Quantidade de operações</div></div><span class="badge g">Contagem</span></div>
+      <div class="chart-tip">Clique em uma barra para ver detalhes</div>
       <div style="position:relative;height:220px"><canvas id="cQF"></canvas></div>
     </div>
     <div class="card">
-      <div class="card-hd"><div><div class="card-title">Carteira por Status</div><div class="card-sub">Distribuição percentual</div></div></div>
-      <div class="chart-tip">👆 Clique em um segmento para ver detalhes</div>
+      <div class="card-hd"><div><div class="card-title">Carteira por status</div><div class="card-sub">Distribuição percentual</div></div></div>
+      <div class="chart-tip">Clique em um segmento para ver detalhes</div>
       <div style="position:relative;height:150px"><canvas id="cST"></canvas></div>
       <div class="slist" id="sBars"></div>
     </div>
   </div>
 
-  <div class="sl">Gerentes &amp; Modalidades</div>
+  <div class="sl">Gerentes &amp; modalidades</div>
   <div class="g2">
     <div class="card">
-      <div class="card-hd"><div><div class="card-title">Top Gerentes por Volume</div><div class="card-sub">Valor acumulado por responsável</div></div></div>
-      <div class="chart-tip">👆 Clique em um gerente para ver sua carteira</div>
+      <div class="card-hd"><div><div class="card-title">Top gerentes por volume</div><div class="card-sub">Valor acumulado por responsável</div></div></div>
+      <div class="chart-tip">Clique em um gerente para ver sua carteira</div>
       <div class="tlist" id="tGer"></div>
     </div>
     <div class="card">
-      <div class="card-hd"><div><div class="card-title">Distribuição por Modalidade</div><div class="card-sub">Tipos de operação</div></div></div>
-      <div class="chart-tip">👆 Clique em um segmento para ver detalhes</div>
+      <div class="card-hd"><div><div class="card-title">Distribuição por modalidade</div><div class="card-sub">Tipos de operação</div></div></div>
+      <div class="chart-tip">Clique em um segmento para ver detalhes</div>
       <div style="position:relative;height:220px"><canvas id="cMod"></canvas></div>
     </div>
   </div>
 
-  <div class="sl">Operações Recentes &amp; Resumo</div>
+  <div class="sl">Operações recentes &amp; resumo</div>
   <div class="g3e">
     <div class="card">
-      <div class="card-hd"><div><div class="card-title">Operações Recentes</div><div class="card-sub">Ordenadas por data de envio</div></div></div>
+      <div class="card-hd"><div><div class="card-title">Operações recentes</div><div class="card-sub">Ordenadas por data de envio</div></div></div>
       <div style="overflow-x:auto">
         <table class="mtable" id="tRec">
           <thead><tr><th>Cliente</th><th>Fundo</th><th>Gerente</th><th>Valor</th><th>Data Envio</th><th>Status</th></tr></thead>
@@ -296,7 +296,7 @@ footer p{font-size:11px;color:var(--muted);}
       </div>
     </div>
     <div class="card">
-      <div class="card-hd"><div><div class="card-title">Resumo Consolidado</div><div class="card-sub">Visão geral das métricas</div></div></div>
+      <div class="card-hd"><div><div class="card-title">Resumo consolidado</div><div class="card-sub">Visão geral das métricas</div></div></div>
       <div id="rGeral"></div>
     </div>
   </div>
@@ -305,7 +305,7 @@ footer p{font-size:11px;color:var(--muted);}
     <p>Sincronizado com Google Sheets · Atualiza a cada 5min · Uso interno</p>
     <div class="fbrand" id="footerFundo">—</div>
     <p id="fDate"></p>
-  </footer>
+  <p style="font-size:10px;color:#BBBBBB;width:100%;text-align:center;padding-top:8px;border-top:1px solid var(--border)">Desenvolvido por Rayssa Nascimento</p></footer>
 </div>
 
 <!-- MODAL -->
@@ -344,7 +344,7 @@ const grd={color:"#E2DDD6",drawBorder:false};
 let charts={}, allRows=[], activeStatus=null, _rows=[];
 
 function normSt(s){return String(s||"").trim().toLowerCase();}
-function fmtM(v){if(v>=1e6)return"R$ "+(v/1e6).toFixed(2).replace(".",",")+"\u00a0M";if(v>=1e3)return"R$ "+(v/1e3).toFixed(0)+" K";return"R$ "+v.toFixed(0);}
+function fmtM(v){if(v>=1e9)return"R$ "+(v/1e9).toFixed(1).replace(".",",")+" Bi";if(v>=1e6){const m=v/1e6;return"R$ "+(m>=100?Math.round(m):m.toFixed(1).replace(".",","))+" M";}if(v>=1e3)return"R$ "+(v/1e3).toFixed(0)+" K";return"R$ "+v.toFixed(0);}
 function pct(n,t){return t?((n/t)*100).toFixed(1):"0.0";}
 function sortD(o){return Object.entries(o).sort((a,b)=>b[1]-a[1]);}
 function dest(id){if(charts[id]){charts[id].destroy();delete charts[id];}}
